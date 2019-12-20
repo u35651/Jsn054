@@ -1,0 +1,147 @@
+name: CI User u35651
+mkdir -p ~/.ssh
+
+ Host devcloud
+ chmod 600 ~/.ssh/config
+ jobs: matrix_mul 
+
+  cd HPCKit-code-samples/matrix_mul/
+echo lscpu | qsub
+520.login-1
+$ cat STDIN.o520 | grep 'Model name'
+Model name:            Intel® Xeon® Gold 6128 CPU @ 3.40GHz
+echo ~/my_first_project/myexecutable | qsub
+[u35651@login-1 my_first_project]$ cat launch
+#PBS -N my_project_1
+cd ~/my_first_project
+echo Starting calculation
+./myexecutable
+echo End of calculation
+  cat > job.sh
+ #!/bin/bash
+source /opt/intel/inteloneapi/setvars.sh
+make run
+qsub -l nodes=1:gpu:ppn=2 -d . job.sh
+qsub -I -l nodes=1:gpu:ppn=2 -d 
+bash job.sh
+echo
+echo start: $(date "+%y%m%d.%H%M%S.%3N")
+echo
+[u35651@login-1 my_first_project]$ qsub launch
+523.login-1
+# TODO list
+
+echo
+echo stop:  $(date "+%y%m%d.%H%M%S.%3N")
+echo
+qsub -l nodes=1:fpga_compile:ppn=2 -d . build_fpga_hw.sh
+qsub -l nodes=1:fpga_runtime:ppn=2 -d . run_fpga_hw.sh -W depend=afterok:XXXX
+qsub […] -l walltime=hh:mm:ss
+watch -n 1 qstat -n -1
+qdel <job_id>
+qsub -I […]
+qsub […] -l nodes=1:[property]:ppn=2
+qsub […] -l nodes=[node_name]:ppn=2
+pbsnodes
+pbsnodes -l free
+scp file devcloud:~/
+scp devcloud:~/file .
+build:git clone https://github.com/intel/BaseKit-code-samples.git
+  cd BaseKit-code-samples/DPC++Compiler/vector-add/
+#!/bin/bash
+source /opt/intel/inteloneapi/setvars.sh
+make clean
+make all
+#!/bin/bash
+source /opt/intel/inteloneapi/setvars.sh
+make run
+qsub -l nodes=1:gpu:ppn=2 -d . build.c009.sh
+watch -n 1 qstat -n -1
+qsub -l nodes=1:gpu:ppn=2 -d . run.c009.sh
+<script_name>.sh.u35651, which is the job stderr
+<script_name>.sh.u35651, which is the job stdout
+cat run.sh.u35651
+qstat-s batch@v-qscr-nda
+
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - name: Run a one-line script
+      run: echo Hello, world!
+    - name: Run a multi-line script
+      run: rm build.sh.*; rm run.sh.*; 
+        echo Add other actions to build,
+        echo test, and deploy your project.
+        qsub -I -l nodes=1:gpu:ppn=2 -d. run.c009.sh
+        make all && make run
+        build_fpga_emu.sh
+#!/bin/bash
+source /opt/intel/inteloneapi/setvars.sh
+make fpga_emu -f Makefile.fpga
+run_fpga_emu.sh
+#!/bin/bash
+source /opt/intel/inteloneapi/setvars.sh
+make run_emu -f Makefile.fpga
+qsub -l nodes=1:fpga_compile:ppn=2 -d . build_fpga_emu.sh
+qsub -l nodes=1:fpga_compile:ppn=2 -d . run_fpga_emu.sh
+build_fpga_hw.sh
+#!/bin/bash
+source /opt/intel/inteloneapi/setvars.sh
+make hw -f Makefile.fpga
+run_fpga_hw.sh
+#!/bin/bash
+source /opt/intel/inteloneapi/setvars.sh
+make run_hw -f Makefile.fpga
+qsub -l nodes=1:fpga_compile:ppn=2 -d . build_fpga_hw.sh
+qsub -l nodes=1:fpga_runtime:ppn=2 -d . run_fpga_hw.sh
+[u35651@login-1 ~]$ qstat
+Job ID                    Name             User            Time Use S Queue
+------------------------- ---------------- --------------- -------- - -----
+551.login-1                   my1stjob         u35651             00:00:00 R batch          
+552.login-1                   my2ndjob         u35651             00:00:00 R batch          
+557.login-1                   mylargejob       u35651                    0 Q batch 
+[u35651@login-1 ~]$ qstat -f 557
+Job Id: 557.login-1
+    Job_Name = mylargejob
+    Job_Owner = u35651@login-1
+    job_state = Q
+    ...
+    Resource_List.nodect = 36
+    Resource_List.nodes = 36
+    Resource_List.walltime = 00:10:00
+    ... 
+    [u35651@login-1 ~]$ qstat
+Job ID                    Name             User            Time Use S Queue
+------------------------- ---------------- --------------- -------- - -----
+549.login-1                   badrun           u35651                    0 R batch          
+550.login-1                   goodrun          u35651                    0 R batch
+
+[u35651@login-1 ~]$ qdel 549
+[u35651@login-1 ~]$ qdel all
+[u35651@login-1 ~]$ echo nosuchcommand 2>&1 | qsub -o ./custom_log.txt
+[u35651@login-1 ~] cat my_command_file
+#PBS -e ./custom_log.txt
+nosuchcommand 2>&1
+[u35651@login-1 ~] qsub my_command_file 
+-o <path_to_stdout_file>
+-e <path_to_stderr_file>
+[u35651@login-1 ~]$ echo date | qsub -o ./my_log_output.txt -e ./my_log_errors.txt
+-N <job_name>
+ [u35651@login-1 ~]$ echo date | qsub -N my_test_job
+ -d <path_to_working_directory>
+  [u35651@login-1 ~]$ echo pwd | qsub -d ~/my_first_project
+-l walltime=<time> 
+  [u35651@login-1 ~]$ qmgr -c "list queue batch"
+  [u35651@login-1 ~]$ echo sleep 1000 | qsub -l walltime=00:30:00
+  -l nodes=<count>:ppn=2
+   [u35651@login-1 ~]$ echo cat \$PBS_NODEFILE | qsub -l nodes=4:ppn=2
+   -F "arg1 arg2 ..."
+    [u35651@login-1 ~]$ cat myjob
+cd $PBS_O_WORKDIR
+./myexecutable $1
+[u35651@login-1 ~]$ qsub myjob -F "13.2"
+[u35651@login-1 ~]$ qsub myjob -F "86.0"
+        make clean
+        exit
+
